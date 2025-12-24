@@ -1,6 +1,7 @@
+#include <stdio.h>
+
 #ifndef MAP_H
 #define MAP_H
-#include <cstdio>
 
 void load_map(FILE *file);
 
