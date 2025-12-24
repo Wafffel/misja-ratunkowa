@@ -1,7 +1,7 @@
+#include "map.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "map.h"
 
 int main(int argc, char *argv[]) {
   FILE *map_file = NULL;
@@ -59,5 +59,9 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  if (config_file != NULL) {
+    fclose(config_file);
+  }
+  free_map();
   return EXIT_SUCCESS;
 }
