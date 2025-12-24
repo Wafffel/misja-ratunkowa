@@ -19,7 +19,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run: $(TARGET)
-	@$(TARGET)
+	@$(TARGET) $(ARGS)
 
 clean:
 	rm -rf $(BIN_DIR)
