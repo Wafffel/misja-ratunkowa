@@ -80,9 +80,9 @@ int main(int argc, char *argv[]) {
              get_swarm_global_best_y());
     }
   }
-  printf("Koniec: Najlepsza wartosc = %lf na pozycji (%lf, %lf)\n",
-         get_swarm_global_best_value(), get_swarm_global_best_x(),
-         get_swarm_global_best_y());
+  printf("Koniec: Najlepsza wartosc = %lf na pozycji (%d, %d)\n",
+         get_swarm_global_best_value(), (int)get_swarm_global_best_x(),
+         (int)get_swarm_global_best_y());
 
   free_map();
   return EXIT_SUCCESS;
