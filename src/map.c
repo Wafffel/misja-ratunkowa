@@ -28,13 +28,9 @@ double get_map_value(int x, int y) {
   return map.data[y][x];
 }
 
-int get_map_width() {
-  return map.width;
-}
+int get_map_width() { return map.width; }
 
-int get_map_height() {
-  return map.height;
-}
+int get_map_height() { return map.height; }
 
 void free_map() {
   for (int y = 0; y < map.height; y++) {
