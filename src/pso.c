@@ -14,6 +14,8 @@ typedef struct {
   double weight;
   double particle_coefficient;
   double swarm_coefficient;
+  double particle_max_random;
+  double swarm_max_random;
   double global_best_position[2];
   double global_best_value;
 } Swarm;
@@ -21,11 +23,14 @@ typedef struct {
 Swarm swarm;
 
 void initialize_swarm(int particles_count, double weight,
-                      double particle_coefficient, double swarm_coefficient) {
+                      double particle_coefficient, double swarm_coefficient,
+                      double particle_max_random, double swarm_max_random) {
   swarm.particles_count = particles_count;
   swarm.weight = weight;
   swarm.particle_coefficient = particle_coefficient;
   swarm.swarm_coefficient = swarm_coefficient;
+  swarm.particle_max_random = particle_max_random;
+  swarm.swarm_max_random = swarm_max_random;
   swarm.particles = (Particle *)malloc(particles_count * sizeof(Particle));
   for (int i = 0; i < particles_count; i++) {
     Particle particle = swarm.particles[i];
@@ -48,8 +53,8 @@ void initialize_swarm(int particles_count, double weight,
 void iterate_swarm() {
   for (int i = 0; i < swarm.particles_count; i++) {
     Particle particle = swarm.particles[i];
-    double particle_random = (double)rand() / RAND_MAX;
-    double swarm_random = (double)rand() / RAND_MAX;
+    double particle_random = ((double)rand() / RAND_MAX) * swarm.particle_max_random;
+    double swarm_random = ((double)rand() / RAND_MAX) * swarm.swarm_max_random;
     double map_size[2] = {get_map_width(), get_map_height()};
     for (int d = 0; d < 2; d++) {
       particle.velocity[d] =
@@ -59,10 +64,14 @@ void iterate_swarm() {
           swarm.swarm_coefficient * swarm_random *
               (swarm.global_best_position[d] - particle.position[d]);
       particle.position[d] += particle.velocity[d];
-      if (particle.position[d] < 0)
+      if (particle.position[d] < 0){
         particle.position[d] = 0.0;
-      if (particle.position[d] >= map_size[d])
+        particle.velocity[d] = 0.0;
+      }
+      if (particle.position[d] >= map_size[d]) {
         particle.position[d] = (double)(map_size[d] - 1);
+        particle.velocity[d] = 0.0;
+      }
     }
     double current_value =
         get_map_value(particle.position[0], particle.position[1]);
