@@ -1,4 +1,5 @@
 #include "map.h"
+#include "pso.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +9,11 @@ int main(int argc, char *argv[]) {
   int particles = 30;
   int iterations = 100;
   FILE *config_file = NULL;
+  double weight = 0.5;
+  double particle_coefficient = 1.5;
+  double swarm_coefficient = 1.5;
+  double particle_max_random = 1.0;
+  double swarm_max_random = 1.0;
   int save_interval = 0;
   char *help_messge = "Uzycie: %s <plik_mapy> [opcje]\n"
                       "Opcje:\n"
@@ -51,6 +57,9 @@ int main(int argc, char *argv[]) {
                 argv[i]);
         return EXIT_FAILURE;
       }
+      fscanf(config_file, "%lf %lf %lf %lf %lf", &weight, &particle_coefficient,
+             &particle_max_random, &swarm_coefficient, &swarm_max_random);
+      fclose(config_file);
     } else if (strcmp(argv[i], "-n") == 0 && i + 1 < argc) {
       save_interval = atoi(argv[++i]);
     } else {
@@ -59,9 +68,20 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  if (config_file != NULL) {
-    fclose(config_file);
+  initialize_swarm(particles, weight, particle_coefficient, swarm_coefficient,
+                   particle_max_random, swarm_max_random);
+  for (int iter = 0; iter < iterations; iter++) {
+    iterate_swarm();
+    if (save_interval > 0 && (iter + 1) % save_interval == 0) {
+      printf("Iteracja %d: Najlepsza wartosc = %lf na pozycji (%lf, %lf)\n",
+             iter + 1, get_swarm_global_best_value(), get_swarm_global_best_x(),
+             get_swarm_global_best_y());
+    }
   }
+  printf("Koniec: Najlepsza wartosc = %lf na pozycji (%lf, %lf)\n",
+         get_swarm_global_best_value(), get_swarm_global_best_x(),
+         get_swarm_global_best_y());
+
   free_map();
   return EXIT_SUCCESS;
 }

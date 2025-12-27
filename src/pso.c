@@ -90,4 +90,8 @@ void iterate_swarm() {
 
 double get_swarm_global_best_value() { return swarm.global_best_value; }
 
+double get_swarm_global_best_x() { return swarm.global_best_position[0]; }
+
+double get_swarm_global_best_y() { return swarm.global_best_position[1]; }
+
 void free_swarm() { free(swarm.particles); }
