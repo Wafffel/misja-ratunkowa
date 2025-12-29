@@ -53,7 +53,8 @@ void initialize_swarm(int particles_count, double weight,
 void iterate_swarm() {
   for (int i = 0; i < swarm.particles_count; i++) {
     Particle *particle = &swarm.particles[i];
-    double particle_random = ((double)rand() / RAND_MAX) * swarm.particle_max_random;
+    double particle_random =
+        ((double)rand() / RAND_MAX) * swarm.particle_max_random;
     double swarm_random = ((double)rand() / RAND_MAX) * swarm.swarm_max_random;
     double map_size[2] = {get_map_width(), get_map_height()};
     for (int d = 0; d < 2; d++) {
@@ -64,7 +65,7 @@ void iterate_swarm() {
           swarm.swarm_coefficient * swarm_random *
               (swarm.global_best_position[d] - particle->position[d]);
       particle->position[d] += particle->velocity[d];
-      if (particle->position[d] < 0){
+      if (particle->position[d] < 0) {
         particle->position[d] = 0.0;
         particle->velocity[d] = 0.0;
       }
@@ -93,5 +94,19 @@ double get_swarm_global_best_value() { return swarm.global_best_value; }
 double get_swarm_global_best_x() { return swarm.global_best_position[0]; }
 
 double get_swarm_global_best_y() { return swarm.global_best_position[1]; }
+
+int get_swarm_particles_count() { return swarm.particles_count; }
+
+double get_particle_x(int index) { return swarm.particles[index].position[0]; }
+
+double get_particle_y(int index) { return swarm.particles[index].position[1]; }
+
+double get_particle_best_x(int index) {
+  return swarm.particles[index].best_position[0];
+}
+
+double get_particle_best_y(int index) {
+  return swarm.particles[index].best_position[1];
+}
 
 void free_swarm() { free(swarm.particles); }

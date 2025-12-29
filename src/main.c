@@ -1,5 +1,6 @@
 #include "map.h"
 #include "pso.h"
+#include "logger.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,6 +18,7 @@ int main(int argc, char *argv[]) {
   double particle_max_random = 1.0;
   double swarm_max_random = 1.0;
   int save_interval = 0;
+  FILE *output_file = stdout;
   char *help_messge = "Uzycie: %s <plik_mapy> [opcje]\n"
                       "Opcje:\n"
                       "  -h, --help       Wyswietl ta pomoc\n"
@@ -24,7 +26,8 @@ int main(int argc, char *argv[]) {
                       "  -i               liczba iteracji (domyslnie 100)\n"
                       "  -c               sciezka do pliku konfiguracyjnego\n"
                       "  -n               co ktora iteracje zapis postepow "
-                      "(domyslnie 0 - brak zapisu)\n";
+                      "(domyslnie 0 - brak zapisu)\n"
+                      "  -o               output file (domyslnie stdout)\n";
 
   if (argc < 2) {
     fprintf(stderr, help_messge, argv[0]);
@@ -64,6 +67,13 @@ int main(int argc, char *argv[]) {
       fclose(config_file);
     } else if (strcmp(argv[i], "-n") == 0 && i + 1 < argc) {
       save_interval = atoi(argv[++i]);
+    } else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc) {
+      output_file = fopen(argv[++i], "w");
+      if (output_file == NULL) {
+        fprintf(stderr, "Blad: Nie mozna otworzyc pliku wyjsciowego %s\n",
+                argv[i]);
+        return EXIT_FAILURE;
+      }
     } else {
       fprintf(stderr, "Blad: Nieznana opcja %s\n", argv[i]);
       return EXIT_FAILURE;
@@ -75,9 +85,7 @@ int main(int argc, char *argv[]) {
   for (int iter = 0; iter < iterations; iter++) {
     iterate_swarm();
     if (save_interval > 0 && (iter + 1) % save_interval == 0) {
-      printf("Iteracja %d: Najlepsza wartosc = %lf na pozycji (%lf, %lf)\n",
-             iter + 1, get_swarm_global_best_value(), get_swarm_global_best_x(),
-             get_swarm_global_best_y());
+      print_log(output_file);
     }
   }
   printf("Koniec: Najlepsza wartosc = %lf na pozycji (%d, %d)\n",
