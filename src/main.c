@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   double swarm_max_random = 1.0;
   int save_interval = 0;
   FILE *output_file = stdout;
-  char *help_messge = "Uzycie: %s <plik_mapy> [opcje]\n"
+  char *help_message = "Uzycie: %s <plik_mapy> [opcje]\n"
                       "Opcje:\n"
                       "  -h, --help       Wyswietl ta pomoc\n"
                       "  -p               liczba czastek (domyslnie 30)\n"
@@ -30,12 +30,12 @@ int main(int argc, char *argv[]) {
                       "  -o               output file (domyslnie stdout)\n";
 
   if (argc < 2) {
-    fprintf(stderr, help_messge, argv[0]);
+    fprintf(stderr, help_message, argv[0]);
     return EXIT_FAILURE;
   }
 
   if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
-    printf(help_messge, argv[0]);
+    printf(help_message, argv[0]);
     return EXIT_SUCCESS;
   }
 
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
 
   for (int i = 2; i < argc; i++) {
     if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
-      printf(help_messge, argv[0]);
+      printf(help_message, argv[0]);
       return EXIT_SUCCESS;
     } else if (strcmp(argv[i], "-p") == 0 && i + 1 < argc) {
       particles = atoi(argv[++i]);
@@ -93,5 +93,9 @@ int main(int argc, char *argv[]) {
          (int)get_swarm_global_best_y());
 
   free_map();
+  free_swarm();
+  if (output_file != stdout) {
+    fclose(output_file);
+  }
   return EXIT_SUCCESS;
 }

@@ -13,7 +13,7 @@ void print_particle_log(FILE *output) {
     double value = get_map_value(x, y);
     double best_x = get_particle_best_x(i);
     double best_y = get_particle_best_y(i);
-    double best_value = get_map_value(x, y);
+    double best_value = get_map_value(best_x, best_y);
     fprintf(output, "%d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n", i, x, y, value,
             best_x, best_y, best_value);
   }
