@@ -23,7 +23,8 @@ void print_swarm_log(FILE *output) {
   double global_best_x = get_swarm_global_best_x();
   double global_best_y = get_swarm_global_best_y();
   double global_best_value = get_swarm_global_best_value();
-  fprintf(output, "Najlepszy X roju, Najlepszy Y roju, Najlepsza wartosc roju\n");
+  fprintf(output,
+          "Najlepszy X roju, Najlepszy Y roju, Najlepsza wartosc roju\n");
   fprintf(output, "%.2f, %.2f, %.2f\n", global_best_x, global_best_y,
           global_best_value);
 }

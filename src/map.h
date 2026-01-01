@@ -1,7 +1,7 @@
-#include <stdio.h>
-
 #ifndef MAP_H
 #define MAP_H
+
+#include <stdio.h>
 
 void load_map(FILE *file);
 
@@ -13,4 +13,4 @@ int get_map_height();
 
 void free_map();
 
-#endif 
+#endif
