@@ -39,14 +39,6 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS;
   }
 
-  map_file = fopen(argv[1], "r");
-  if (map_file == NULL) {
-    fprintf(stderr, "Blad: Nie mozna otworzyc pliku mapy %s\n", argv[1]);
-    return EXIT_FAILURE;
-  }
-  load_map(map_file);
-  fclose(map_file);
-
   for (int i = 2; i < argc; i++) {
     if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
       printf(help_message, argv[0]);
@@ -79,6 +71,14 @@ int main(int argc, char *argv[]) {
       return EXIT_FAILURE;
     }
   }
+
+  map_file = fopen(argv[1], "r");
+  if (map_file == NULL) {
+    fprintf(stderr, "Blad: Nie mozna otworzyc pliku mapy %s\n", argv[1]);
+    return EXIT_FAILURE;
+  }
+  load_map(map_file);
+  fclose(map_file);
 
   initialize_swarm(particles, weight, particle_coefficient, swarm_coefficient,
                    particle_max_random, swarm_max_random);
