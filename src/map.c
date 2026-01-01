@@ -20,12 +20,14 @@ void load_map(FILE *file) {
   }
 }
 
-double get_map_value(int x, int y) {
-  if (x < 0 || x >= map.width || y < 0 || y >= map.height) {
-    fprintf(stderr, "Blad: Koordynaty poza mapa (%d, %d)\n", x, y);
+double get_map_value(double x, double y) {
+  int ix = (int)x;
+  int iy = (int)y;
+  if (ix < 0 || ix >= map.width || iy < 0 || iy >= map.height) {
+    fprintf(stderr, "Blad: Koordynaty poza mapa (%d, %d)\n", ix, iy);
     exit(EXIT_FAILURE);
   }
-  return map.data[y][x];
+  return map.data[iy][ix];
 }
 
 int get_map_width() { return map.width; }

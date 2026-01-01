@@ -5,7 +5,7 @@
 
 void load_map(FILE *file);
 
-double get_map_value(int x, int y);
+double get_map_value(double x, double y);
 
 int get_map_width();
 
