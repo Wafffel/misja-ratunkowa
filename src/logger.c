@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include "pso.h"
 #include "map.h"
+#include "pso.h"
+#include <stdio.h>
 
-void print_log(FILE *output) {
+void print_particle_log(FILE *output) {
   int particle_count = get_swarm_particles_count();
-  fprintf(output, "Particle Count: %d\n", particle_count);
-  fprintf(output, "Number, X, Y, Value, Best X, Best Y, Best Value\n");
+  fprintf(
+      output,
+      "Numer, X, Y, Wartosc, Najlepszy X, Najlepszy Y, Najlepsza wartosc\n");
   for (int i = 0; i < particle_count; i++) {
     double x = get_particle_x(i);
     double y = get_particle_y(i);
@@ -16,4 +17,19 @@ void print_log(FILE *output) {
     fprintf(output, "%d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n", i, x, y, value,
             best_x, best_y, best_value);
   }
+}
+
+void print_swarm_log(FILE *output) {
+  double global_best_x = get_swarm_global_best_x();
+  double global_best_y = get_swarm_global_best_y();
+  double global_best_value = get_swarm_global_best_value();
+  fprintf(output, "Najlepszy X roju, Najlepszy Y roju, Najlepsza wartosc roju\n");
+  fprintf(output, "%.2f, %.2f, %.2f\n", global_best_x, global_best_y,
+          global_best_value);
+}
+
+void print_log(FILE *output, int iteration) {
+  fprintf(output, "Iteracja: %d\n", iteration);
+  print_swarm_log(output);
+  print_particle_log(output);
 }

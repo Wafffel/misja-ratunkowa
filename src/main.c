@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
   for (int iter = 0; iter < iterations; iter++) {
     iterate_swarm();
     if (save_interval > 0 && (iter + 1) % save_interval == 0) {
-      print_log(output_file);
+      print_log(output_file, iter + 1);
     }
   }
   printf("Koniec: Najlepsza wartosc = %lf na pozycji (%d, %d)\n",
