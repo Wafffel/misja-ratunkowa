@@ -45,8 +45,16 @@ int main(int argc, char *argv[]) {
       return EXIT_SUCCESS;
     } else if (strcmp(argv[i], "-p") == 0 && i + 1 < argc) {
       particles = atoi(argv[++i]);
+      if (particles <= 0) {
+        fprintf(stderr, "Blad: Liczba czastek musi byc wieksza od 0\n");
+        return EXIT_FAILURE;
+      }
     } else if (strcmp(argv[i], "-i") == 0 && i + 1 < argc) {
       iterations = atoi(argv[++i]);
+      if (iterations <= 0) {
+        fprintf(stderr, "Blad: Liczba iteracji musi byc wieksza od 0\n");
+        return EXIT_FAILURE;
+      }
     } else if (strcmp(argv[i], "-c") == 0 && i + 1 < argc) {
       config_file = fopen(argv[++i], "r");
       if (config_file == NULL) {
@@ -59,6 +67,10 @@ int main(int argc, char *argv[]) {
       fclose(config_file);
     } else if (strcmp(argv[i], "-n") == 0 && i + 1 < argc) {
       save_interval = atoi(argv[++i]);
+      if (save_interval < 0) {
+        fprintf(stderr, "Blad: Interwal zapisu musi byc nieujemny\n");
+        return EXIT_FAILURE;
+      }
     } else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc) {
       output_file = fopen(argv[++i], "w");
       if (output_file == NULL) {

@@ -1,4 +1,5 @@
 #include "map.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct {
@@ -32,12 +33,16 @@ void initialize_swarm(int particles_count, double weight,
   swarm.particle_max_random = particle_max_random;
   swarm.swarm_max_random = swarm_max_random;
   swarm.particles = (Particle *)malloc(particles_count * sizeof(Particle));
+  if (swarm.particles == NULL) {
+    fprintf(stderr, "Blad: Nie udalo sie zaalokowac pamieci dla czastek\n");
+    exit(EXIT_FAILURE);
+  }
   for (int i = 0; i < particles_count; i++) {
     Particle *particle = &swarm.particles[i];
     particle->position[0] = rand() % get_map_width();
     particle->position[1] = rand() % get_map_height();
-    particle->velocity[0] = (rand() % 3) - 1;
-    particle->velocity[1] = (rand() % 3) - 1;
+    particle->velocity[0] = ((double)rand() / RAND_MAX) * 2.0 - 1.0;
+    particle->velocity[1] = ((double)rand() / RAND_MAX) * 2.0 - 1.0;
     particle->best_position[0] = particle->position[0];
     particle->best_position[1] = particle->position[1];
     particle->best_value =

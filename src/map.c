@@ -12,8 +12,16 @@ Map map;
 void load_map(FILE *file) {
   fscanf(file, "%d %d", &map.width, &map.height);
   map.data = (double **)malloc(map.height * sizeof(double *));
+  if (map.data == NULL) {
+    fprintf(stderr, "Blad: Nie udalo sie zaalokowac pamieci dla mapy\n");
+    exit(EXIT_FAILURE);
+  }
   for (int y = 0; y < map.height; y++) {
     map.data[y] = (double *)malloc(map.width * sizeof(double));
+    if (map.data[y] == NULL) {
+      fprintf(stderr, "Blad: Nie udalo sie zaalokowac pamieci dla wiersza mapy\n");
+      exit(EXIT_FAILURE);
+    }
     for (int x = 0; x < map.width; x++) {
       fscanf(file, "%lf", &map.data[y][x]);
     }
