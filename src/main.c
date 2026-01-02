@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
   int iterations = 100;
   FILE *config_file = NULL;
   double weight = 0.5;
-  double particle_coefficient = 1.5;
-  double swarm_coefficient = 1.5;
+  double particle_coefficient = 1.0;
+  double swarm_coefficient = 1.0;
   double particle_max_random = 1.0;
   double swarm_max_random = 1.0;
   int save_interval = 0;
@@ -83,10 +83,10 @@ int main(int argc, char *argv[]) {
   initialize_swarm(particles, weight, particle_coefficient, swarm_coefficient,
                    particle_max_random, swarm_max_random);
   for (int iter = 0; iter < iterations; iter++) {
-    iterate_swarm();
-    if (save_interval > 0 && (iter + 1) % save_interval == 0) {
-      print_log(output_file, iter + 1);
+    if (save_interval > 0 && iter % save_interval == 0) {
+      print_log(output_file, iter);
     }
+    iterate_swarm();
   }
   printf("Koniec: Najlepsza wartosc = %lf na pozycji (%d, %d)\n",
          get_swarm_global_best_value(), (int)get_swarm_global_best_x(),
