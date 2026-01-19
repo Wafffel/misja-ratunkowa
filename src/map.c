@@ -20,7 +20,8 @@ void load_map(FILE *file) {
   for (int y = 0; y < map.height; y++) {
     map.data[y] = (double *)malloc(map.width * sizeof(double));
     if (map.data[y] == NULL) {
-      fprintf(stderr, "Blad: Nie udalo sie zaalokowac pamieci dla wiersza mapy\n");
+      fprintf(stderr,
+              "Blad: Nie udalo sie zaalokowac pamieci dla wiersza mapy\n");
       exit(EXIT_FAILURE);
     }
     for (int x = 0; x < map.width; x++) {
