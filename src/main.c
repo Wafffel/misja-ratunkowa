@@ -15,8 +15,6 @@ int main(int argc, char *argv[]) {
   double weight = 0.5;
   double particle_coefficient = 1.0;
   double swarm_coefficient = 1.0;
-  double particle_max_random = 1.0;
-  double swarm_max_random = 1.0;
   int save_interval = 0;
   FILE *output_file = stdout;
   char *help_message = "Uzycie: %s <plik_mapy> [opcje]\n"
@@ -62,8 +60,8 @@ int main(int argc, char *argv[]) {
                 argv[i]);
         return EXIT_FAILURE;
       }
-      fscanf(config_file, "%lf %lf %lf %lf %lf", &weight, &particle_coefficient,
-             &particle_max_random, &swarm_coefficient, &swarm_max_random);
+      fscanf(config_file, "%lf %lf %lf", &weight, &particle_coefficient,
+             &swarm_coefficient);
       fclose(config_file);
     } else if (strcmp(argv[i], "-n") == 0 && i + 1 < argc) {
       save_interval = atoi(argv[++i]);
@@ -92,8 +90,7 @@ int main(int argc, char *argv[]) {
   load_map(map_file);
   fclose(map_file);
 
-  initialize_swarm(particles, weight, particle_coefficient, swarm_coefficient,
-                   particle_max_random, swarm_max_random);
+  initialize_swarm(particles, weight, particle_coefficient, swarm_coefficient);
   for (int iter = 0; iter < iterations; iter++) {
     if (save_interval > 0 && iter % save_interval == 0) {
       print_log(output_file, iter);

@@ -2,8 +2,7 @@
 #define PSO_H
 
 void initialize_swarm(int particles_count, double weight,
-                      double particle_coefficient, double swarm_coefficient,
-                      double particle_max_random, double swarm_max_random);
+                      double particle_coefficient, double swarm_coefficient);
 
 void iterate_swarm();
 

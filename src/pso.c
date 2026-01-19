@@ -15,8 +15,6 @@ typedef struct {
   double weight;
   double particle_coefficient;
   double swarm_coefficient;
-  double particle_max_random;
-  double swarm_max_random;
   double global_best_position[2];
   double global_best_value;
 } Swarm;
@@ -24,14 +22,11 @@ typedef struct {
 Swarm swarm;
 
 void initialize_swarm(int particles_count, double weight,
-                      double particle_coefficient, double swarm_coefficient,
-                      double particle_max_random, double swarm_max_random) {
+                      double particle_coefficient, double swarm_coefficient) {
   swarm.particles_count = particles_count;
   swarm.weight = weight;
   swarm.particle_coefficient = particle_coefficient;
   swarm.swarm_coefficient = swarm_coefficient;
-  swarm.particle_max_random = particle_max_random;
-  swarm.swarm_max_random = swarm_max_random;
   swarm.particles = (Particle *)malloc(particles_count * sizeof(Particle));
   if (swarm.particles == NULL) {
     fprintf(stderr, "Blad: Nie udalo sie zaalokowac pamieci dla czastek\n");
@@ -58,9 +53,8 @@ void initialize_swarm(int particles_count, double weight,
 void iterate_swarm() {
   for (int i = 0; i < swarm.particles_count; i++) {
     Particle *particle = &swarm.particles[i];
-    double particle_random =
-        ((double)rand() / RAND_MAX) * swarm.particle_max_random;
-    double swarm_random = ((double)rand() / RAND_MAX) * swarm.swarm_max_random;
+    double particle_random = ((double)rand() / RAND_MAX);
+    double swarm_random = ((double)rand() / RAND_MAX);
     double map_size[2] = {get_map_width(), get_map_height()};
     for (int d = 0; d < 2; d++) {
       particle->velocity[d] =
